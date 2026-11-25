@@ -1,0 +1,8 @@
+# rats_navigation Git hooks
+# Install with: just install-hooks
+
+pre-push:
+  parallel: false
+  jobs:
+    - name: Run project pre-push checks
+      run: scripts/pre-push.sh
