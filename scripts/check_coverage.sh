@@ -24,7 +24,11 @@ while (( $# > 0 )); do
 done
 
 [[ "$threshold" =~ ^[0-9]+$ ]] || {
-    printf 'coverage threshold must be an integer percentage\n' >&2
+    printf 'coverage threshold must be an integer percentage between 0 and 100\n' >&2
+    exit 2
+}
+(( threshold <= 100 )) || {
+    printf 'coverage threshold must be between 0 and 100\n' >&2
     exit 2
 }
 
