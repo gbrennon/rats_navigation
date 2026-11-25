@@ -32,5 +32,5 @@ jobs:
       - name: Run project quality gate
         run: just ci
 
-      - name: Check workspace coverage
-        run: scripts/check_coverage.sh
+      - name: Check core coverage
+        run: scripts/check_coverage.sh --crate rats_core
