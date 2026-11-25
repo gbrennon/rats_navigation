@@ -32,9 +32,10 @@ done
     exit 2
 }
 
-coverage_command=(cargo llvm-cov --workspace --all-features --fail-under-lines "$threshold")
 if [[ -n "$package" ]]; then
-    coverage_command+=(--package "$package")
+    coverage_command=(cargo llvm-cov --package "$package" --all-features --fail-under-lines "$threshold")
+else
+    coverage_command=(cargo llvm-cov --workspace --all-features --fail-under-lines "$threshold")
 fi
 
 "${coverage_command[@]}"
