@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Quality checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install pinned Rust toolchain
+        run: rustup toolchain install nightly --profile minimal --component rustfmt --component clippy --component llvm-tools-preview
+
+      - name: Install coverage tool
+        run: cargo install cargo-llvm-cov --locked
+
+      - name: Run project quality gate
+        run: just ci
+
+      - name: Check workspace coverage
+        run: scripts/check_coverage.sh
